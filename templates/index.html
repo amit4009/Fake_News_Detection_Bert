@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Analysis</title>
+    <style>
+        body {
+            background-color: #5ba6a6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #000;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        textarea {
+            width: 400px; /* Increased width */
+            height: 100px;
+            padding: 10px;
+            border-radius: 10px;
+            border: none;
+            margin-bottom: 20px;
+            font-size: 1em;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        button {
+            background-color: #a6d785;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #8ccf5b;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Fake News<br>Detection</h1>
+        <form id="sentiment-form" action="/predict" method="post">
+            <textarea id="review" name="review" placeholder="Enter your News Text"></textarea>
+            <button type="submit">Predict</button>
+        </form>
+        <div class="result" id="result">{{ prediction_text }}</div> <!-- Correctly display prediction_text -->
+    </div>
+
+    <script>
+        document.getElementById('sentiment-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+            const review = formData.get('review');
+
+            fetch('/predict', {
+                method: 'POST',
+                body: new URLSearchParams('review=' + encodeURIComponent(review)),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            })
+            .then(response => response.json())  // Assuming the response is in JSON format
+            .then(data => {
+                document.getElementById('result').innerHTML = data.prediction_text;
+                document.getElementById('review').value = review; // Keep the text in the textarea
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('result').innerHTML = 'An error occurred. Please try again.';
+            });
+        });
+    </script>
+</body>
+</html>
