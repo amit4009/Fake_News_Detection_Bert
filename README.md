@@ -4,7 +4,7 @@
 This project focuses on detecting fake news using the BERT (Bidirectional Encoder Representations from Transformers) model. The primary goal is to build a robust machine learning model that can accurately classify news articles as either true or fake. The project involves several stages, including data preprocessing, model training, and evaluation.
 <br>
 
-# ntroduction
+# Introduction
 The proliferation of fake news has become a significant issue in today's digital age. Fake news can mislead the public, influence political decisions, and create social unrest. This project aims to address this problem by leveraging the BERT model to detect fake news with high accuracy.
 <br>
 
